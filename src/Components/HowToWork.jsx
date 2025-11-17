@@ -5,7 +5,7 @@ const HowToWork = () => {
   return (
     <div>
         <div>
-            <h1 className="text-4xl text-secondary">How It Works</h1>
+            <h1 className="text-4xl font-bold text-secondary">How It Works</h1>
         </div>
       <div className="flex gap-5 my-10">
         {/* card-1 */}
