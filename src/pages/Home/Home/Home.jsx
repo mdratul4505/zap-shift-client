@@ -5,6 +5,9 @@ import OurServices from '../../../Components/OurServices';
 import SalesTeam from '../../../Components/SalesTeam';
 import Reviews from '../../../Components/Reviews';
 
+
+const reviewsPromise = fetch('./reviews.json').then(res => res.json())
+
 const Home = () => {
     return (
         <div>
@@ -12,7 +15,7 @@ const Home = () => {
             <HowToWork></HowToWork>
             <OurServices></OurServices>
             <SalesTeam></SalesTeam>
-            <Reviews></Reviews>
+            <Reviews reviewsPromise={reviewsPromise}></Reviews>
         </div>
     );
 };
