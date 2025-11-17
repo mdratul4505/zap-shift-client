@@ -1,9 +1,10 @@
 import { Truck } from "lucide-react";
 import React from "react";
 
+
 const HowToWork = () => {
   return (
-    <div>
+    <div className="px-20">
         <div>
             <h1 className="text-4xl font-bold text-secondary">How It Works</h1>
         </div>

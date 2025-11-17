@@ -13,7 +13,7 @@ const OurServices = () => {
         </p>
       </div>
 
-      <div className="grid grid-cols-3 gap-5 p-10">
+      <div className="grid grid-cols-3 gap-5 px-20 py-10">
         {/* card-1 */}
         <div className="card hover:bg-primary bg-base-100  shadow-sm  hover:scale-105 transition">
           <figure className="px-10  pt-10">
