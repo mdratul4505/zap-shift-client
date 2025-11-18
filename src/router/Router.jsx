@@ -9,6 +9,7 @@ export const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayOut></MainLayOut>,
+    hydrateFallbackElement:<h1>loading ....</h1>,
     children:[
         {
             index:true,
@@ -17,6 +18,7 @@ export const router = createBrowserRouter([
         {
           path:'/coverage',
           Component:Coverage,
+          loader: () => fetch('/serviceCenter.json').then(res => res.json())
         }
     ]
   }
