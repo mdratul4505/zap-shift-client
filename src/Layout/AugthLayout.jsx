@@ -7,7 +7,7 @@ const AugthLayout = () => {
     return (
         <div className='max-w-7xl mx-auto'>
             <Logo></Logo>
-            <div className='flex items-center  justify-center min-h-screen border'>
+            <div className='flex items-center  justify-center min-h-screen'>
                 <div className='flex-1'>
                     <Outlet></Outlet>
                 </div>
