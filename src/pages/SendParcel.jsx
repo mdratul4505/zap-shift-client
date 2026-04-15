@@ -1,6 +1,7 @@
 import React from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { useLoaderData } from "react-router";
+import Swal from "sweetalert2";
 
 const SendParcel = () => {
   const {
@@ -11,7 +12,46 @@ const SendParcel = () => {
   } = useForm();
 
   const handelSendParsel = (data) => {
-    console.log(data);
+    // console.log(data)
+    const isDocument = data.parcelType === 'document'
+    const parcelWeight = parseFloat(data.percelWait) 
+    
+    const isSameDistricts = data.senderDistricts === data.receiverDistricts ;
+
+    let cost = 0;
+    if(isDocument){
+      cost = isSameDistricts ? 60 : 80 ; 
+    } else{
+      if(parcelWeight < 3 ){
+        cost = isSameDistricts ? 110 : 150;
+      }else{
+        const minCharge = isSameDistricts ? 110 : 150;
+        const extraaWeight = parcelWeight - 3;
+        const extraCharge = isSameDistricts ? extraaWeight * 40 : extraaWeight * 40 + 40;
+        cost = minCharge + extraCharge;
+      }
+    }
+    
+    Swal.fire({
+  title: "Agree with the cost?",
+  text: `You will be charged ${cost} taka!`,
+  icon: "warning",
+  showCancelButton: true,
+  confirmButtonColor: "#3085d6",
+  cancelButtonColor: "#d33",
+  confirmButtonText: "Yes, take it!"
+}).then((result) => {
+  if (result.isConfirmed) 
+    
+    Swal.fire({
+    title: "Deleted!",
+    text: "Your file has been deleted.",
+    icon: "success"
+  });
+});
+
+
+
   };
 
   const serviceCenter = useLoaderData();
@@ -25,6 +65,9 @@ const SendParcel = () => {
     const districts = regionDistricts.map(d => d.district);
     return districts;
   }
+
+
+
 
   return (
     <div>
