@@ -1,36 +1,40 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import useAuth from "../hooks/useAuth";
-import { Link } from "react-router";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 
 const Login = () => {
-  const {signInGoogle} = useAuth()
+  const { signInUser, signInGoogle } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/"; // default "/" 
 
-  const handelGoogleSignIn = () =>{
+  // Google Sign-In
+  const handelGoogleSignIn = () => {
     signInGoogle()
-    .then(res => {
-      console.log(res.user)
-    })
-    .catch(error =>{
-      console.log(error)
-    })
-  }
+      .then(res => {
+        console.log("Google login user:", res.user);
+        navigate(from, { replace: true }); // redirect after login
+      })
+      .catch(error => console.log(error));
+  };
 
+  // React Hook Form
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { signInUser } = useAuth();
 
+  // Email/Password login
   const handelSignIn = (data) => {
-    console.log(data);
     signInUser(data.email, data.password)
-      .then((result) => {
-        console.log(result);
+      .then(result => {
+        console.log("Login success:", result.user);
+        navigate(from, { replace: true }); // redirect after login
       })
-      .then((error) => {
-        console.log(error);
+      .catch(error => {
+        console.log("Login failed:", error);
       });
   };
 
@@ -42,7 +46,7 @@ const Login = () => {
       </div>
       <form onSubmit={handleSubmit(handelSignIn)} className="card-body">
         <fieldset className="fieldset">
-          {/* email  */}
+          {/* Email */}
           <label className="label">Email</label>
           <input
             type="email"
@@ -50,10 +54,11 @@ const Login = () => {
             className="input"
             placeholder="Email"
           />
-          {errors.email?.type === "required" && (
-            <p className="text-red-500"> please provide your email</p>
+          {errors.email && (
+            <p className="text-red-500">Please provide your email</p>
           )}
-          {/* password */}
+
+          {/* Password */}
           <label className="label">Password</label>
           <input
             type="password"
@@ -61,17 +66,24 @@ const Login = () => {
             className="input"
             placeholder="Password"
           />
+          {errors.password && (
+            <p className="text-red-500">Please provide your password</p>
+          )}
 
           <div>
             <a className="link link-hover">Forgot password?</a>
           </div>
-          <button className="btn btn-neutral mt-4">Login</button>
-          <div className=" my-2 text-center font-bold text-lg"> OR</div>
 
-          {/* Google */}
+          <button className="btn btn-neutral mt-4">Login</button>
+
+          <div className="my-2 text-center font-bold text-lg">OR</div>
+
+          {/* Google login */}
           <button
-          onClick={handelGoogleSignIn}
-          className="btn bg-white text-black border-[#e5e5e5]">
+            type="button"
+            onClick={handelGoogleSignIn}
+            className="btn bg-white text-black border-[#e5e5e5]"
+          >
             <svg
               aria-label="Google logo"
               width="16"
@@ -101,13 +113,14 @@ const Login = () => {
             </svg>
             Login with Google
           </button>
+
+          <p className="mt-2 text-center">
+            New to ZapShift?{" "}
+            <Link to="/register" className="text-blue-400">
+              Register
+            </Link>
+          </p>
         </fieldset>
-        <p>
-          New to zapshift{" "}
-          <Link to={"/register"} className="text-blue-400">
-            Register
-          </Link>
-        </p>
       </form>
     </div>
   );

@@ -5,6 +5,8 @@ import Coverage from "../pages/Coverage";
 import AugthLayout from "../Layout/AugthLayout";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
+import SendParcel from "../pages/SendParcel";
+import PrivateRoute from "./PrivateRoute";
 
 
 
@@ -22,7 +24,11 @@ export const router = createBrowserRouter([
           path:'/coverage',
           Component:Coverage,
           loader: () => fetch('/serviceCenter.json').then(res => res.json())
-        }
+        },
+        {
+        path:'/parcel',
+        element:<PrivateRoute><SendParcel></SendParcel></PrivateRoute>
+      },
     ]
   },
   {
@@ -36,7 +42,9 @@ export const router = createBrowserRouter([
       {
         path:'/register',
         Component:Register,
-      }
+      },
+      
+
     ]
   }
 ]);
