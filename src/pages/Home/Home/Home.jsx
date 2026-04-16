@@ -8,7 +8,7 @@ import ServicesSection from '../../../Components/ServicesSection';
 import PrioritySection from '../../../Components/PrioritySection';
 
 
-const reviewsPromise = fetch('./reviews.json').then(res => res.json())
+const reviewsPromise = fetch('/reviews.json').then(res => res.json())
 
 const Home = () => {
     return (
