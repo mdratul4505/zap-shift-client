@@ -2,6 +2,10 @@ import React from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { useLoaderData } from "react-router";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../hooks/useAxiosSecure";
+import useAuth from "../hooks/useAuth";
+
+
 
 const SendParcel = () => {
   const {
@@ -10,6 +14,11 @@ const SendParcel = () => {
     control,
     formState: { errors },
   } = useForm();
+
+
+  const {user} = useAuth()
+
+  const axiosSecure = useAxiosSecure()
 
   const handelSendParsel = (data) => {
     // console.log(data)
@@ -42,12 +51,17 @@ const SendParcel = () => {
   confirmButtonText: "Yes, take it!"
 }).then((result) => {
   if (result.isConfirmed) 
+    // save the parcel info to the data base
+  axiosSecure.post('/parcels', data)
+  .then(res =>{
+    console.log(res.data)
+  })
     
-    Swal.fire({
-    title: "Deleted!",
-    text: "Your file has been deleted.",
-    icon: "success"
-  });
+  //   Swal.fire({
+  //   title: "Deleted!",
+  //   text: "Your file has been deleted.",
+  //   icon: "success"
+  // });
 });
 
 
@@ -136,6 +150,7 @@ const SendParcel = () => {
               <input
                 type="text"
                 {...register("SenderName")}
+                defaultValue={user?.displayName}
                 className="input w-full"
                 placeholder="Sender Name"
               />
@@ -146,6 +161,7 @@ const SendParcel = () => {
               <input
                 type="text"
                 {...register("SenderEmail")}
+                defaultValue={user?.email}
                 className="input w-full"
                 placeholder="Sender Email"
               />
