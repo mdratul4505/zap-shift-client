@@ -74,7 +74,7 @@ Swal.fire({
         <td>
           {
             p.paymentStatus === 'paid' ? <span className='text-green-400'>pain</span>
-            : <Link>
+            : <Link to={`/dashboard/payment/${p._id}`}>
             <button className='btn btn-primary text-black'> Pay</button>
             </Link>
           }
